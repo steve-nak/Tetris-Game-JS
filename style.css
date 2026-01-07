@@ -86,7 +86,8 @@ canvas {
     font-size: 1.1em;
 }
 
-#restart {
+#restart,
+#startPause {
     background: #fff;
     color: #667eea;
     border: none;
@@ -99,13 +100,15 @@ canvas {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-#restart:hover {
+#restart:hover,
+#startPause:hover {
     background: #f0f0f0;
     transform: translateY(-2px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
 }
 
-#restart:active {
+#restart:active,
+#startPause:active {
     transform: translateY(0);
 }
 

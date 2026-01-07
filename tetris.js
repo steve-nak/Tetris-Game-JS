@@ -3,6 +3,7 @@ const ctx = canvas.getContext('2d');
 const scoreElement = document.getElementById('score');
 const linesElement = document.getElementById('lines');
 const restartButton = document.getElementById('restart');
+const startPauseButton = document.getElementById('startPause');
 
 const ROWS = 20;
 const COLS = 12;
@@ -14,6 +15,7 @@ let lines = 0;
 let currentPiece = null;
 let gameOver = false;
 let isPaused = false;
+let hasStarted = false;
 let dropInterval;
 
 // Tetromino shapes
@@ -44,10 +46,12 @@ function init() {
     lines = 0;
     gameOver = false;
     isPaused = false;
+    hasStarted = true;
     updateScore();
     spawnPiece();
     clearInterval(dropInterval);
     dropInterval = setInterval(drop, 1000);
+    updateStartPauseLabel();
 }
 
 // Create a new piece
@@ -69,6 +73,8 @@ function spawnPiece() {
         ctx.font = '30px Arial';
         ctx.textAlign = 'center';
         ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
+        hasStarted = false;
+        updateStartPauseLabel();
     }
 }
 
@@ -222,12 +228,35 @@ function draw() {
     }
 }
 
+// Draw a centered message on a cleared canvas (idle state)
+function drawMessage(message) {
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#fff';
+    ctx.font = '24px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(message, canvas.width / 2, canvas.height / 2);
+}
+
+function updateStartPauseLabel() {
+    if (!startPauseButton) return;
+    if (!hasStarted || gameOver) {
+        startPauseButton.textContent = 'Start Game';
+    } else if (isPaused) {
+        startPauseButton.textContent = 'Resume';
+    } else {
+        startPauseButton.textContent = 'Pause';
+    }
+}
+
 // Keyboard controls
 document.addEventListener('keydown', (e) => {
     if (gameOver) return;
+    if (!hasStarted) return;
     
     if (e.key === 'p' || e.key === 'P') {
         isPaused = !isPaused;
+        updateStartPauseLabel();
         draw();
         return;
     }
@@ -261,6 +290,20 @@ restartButton.addEventListener('click', () => {
     draw();
 });
 
-// Start game
-init();
-draw();
+// Start/Pause button
+startPauseButton.addEventListener('click', () => {
+    if (!hasStarted || gameOver) {
+        init();
+        draw();
+        return;
+    }
+
+    // Toggle pause/resume
+    isPaused = !isPaused;
+    updateStartPauseLabel();
+    draw();
+});
+
+// Initial idle screen
+drawMessage('Press Start to Play');
+updateStartPauseLabel();

@@ -5,7 +5,8 @@ A simple, classic Tetris game built with HTML, CSS, and JavaScript.
 ## How to Play
 
 1. Open `index.html` in your web browser
-2. Use the keyboard controls to play:
+2. Click "Start Game" to begin. Use the button to Pause/Resume anytime.
+3. You can also use the keyboard controls:
    - **←** / **→** : Move piece left/right
    - **↓** : Soft drop (move down faster)
    - **↑** : Rotate piece
@@ -29,7 +30,8 @@ A simple, classic Tetris game built with HTML, CSS, and JavaScript.
 
 - Classic 7 tetromino shapes
 - Score and line counter
-- Pause functionality
+- Start/Pause/Resume button
+- Pause functionality (keyboard and button)
 - Restart button
 - Responsive controls
 - Game over detection
